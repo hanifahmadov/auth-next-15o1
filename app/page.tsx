@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
 /* image */
-import roomImage from "@/public/room.png";
 import blankLogo from "@/public/blank-logo.png";
 
 /* Home Page */
@@ -14,16 +13,14 @@ const Home = () => {
 	return (
 		<div
 			className='home flex flex-col gap-3 justify-center items-center
-                        sm:h-[25rem] sm:w-[35rem] 
-                        border border-neutral-800 
-                        rounded-xl m-5 p-5 
+                        sm:h-[25rem] sm:w-[35rem]
+                        m-5 p-5 
                         '
 		>
 			<section className='header flex flex-col gap-3 justify-center items-center '>
 				{/* App logo here */}
-				{/* <Image src={roomImage} alt='room image' height={60} width={60} /> */}
 				<Image src={blankLogo} alt='room image' height={60} width={60} className='rounded' />
-				{/* <h1 className='text-3xl font-semibold text-white'>Room of Zoom</h1> */}
+				{/* App Name here */}
 				<h1 className='text-3xl font-semibold text-white'>App Name Here</h1>
 			</section>
 
@@ -45,8 +42,8 @@ const Home = () => {
 					<Button
 						variant='outline'
 						className='bg-transparent border border-neutral-800
-                                hover:bg-neutral-950 hover:text-white
-                                font-semibold text-[16px] px-5
+                                hover:bg-neutral-950 hover:text-white hover:border-blue-500
+                                font-semibold text-[14px] px-5
                                 '
 					>
 						Sign in

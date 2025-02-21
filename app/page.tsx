@@ -4,7 +4,7 @@ import Image from "next/image";
 
 /* component  */
 import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/auth/login-button";
+import { LoginButton } from "@/components/features/login-button";
 /* image */
 import blankLogo from "@/public/blank-logo.png";
 
@@ -21,7 +21,7 @@ const Home = () => {
 				{/* App logo here */}
 				<Image src={blankLogo} alt='room image' height={60} width={60} className='rounded' />
 				{/* App Name here */}
-				<h1 className='text-3xl font-semibold text-white'>App Name Here</h1>
+				<h1 className='text-3xl font-semibold'>App Name Here</h1>
 			</section>
 
 			<section className='home-content flex flex-col justify-center items-center mt-2'>
@@ -30,20 +30,20 @@ const Home = () => {
                     Featuring only the core functionalities.
 				</p> */}
 
-				<p className='app-description text-center text-[16px]'>
+				<p className='app-description text-center'>
 					App description here!
 				</p>
 			</section>
 
 			<section className='home-content flex flex-col gap-5 justify-center items-center mt-5'>
-				<p className='app-description text-[16px]'>Please sign in to continue.</p>
+				<p className='app-description'>Please sign in to continue.</p>
 
 				<LoginButton>
 					<Button
 						variant='outline'
 						className='bg-transparent border border-neutral-800
-                                hover:bg-neutral-950 hover:text-white hover:border-blue-500
-                                font-semibold text-[14px] px-5
+                            	 hover:text-white hover:border-blue-500
+                                 font-semibold px-4
                                 '
 					>
 						Sign in

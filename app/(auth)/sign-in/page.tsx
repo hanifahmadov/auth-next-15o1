@@ -1,140 +1,54 @@
 "use client";
 /* npm packages */
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { motion } from "framer-motion";
 
-/* schemas */
-import { LoginSchema } from "@/schemas";
+/* api calls */
+import { SignInSchema, SignInSchemaType } from "@/components/signin/signin_schema";
 
 /* components */
-import { SocialAccounts } from "@/components/auth/social-accounts";
-import { Footer } from "@/components/auth/footer";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { SignInUsername } from "@/components/signin/signin_username";
+import { FormPassword } from "@/components/forms/form-password";
 
 const SignIn = () => {
-	const [email, setEmail] = useState("");
-	const [pwd, setPwd] = useState("");
-
 	/* form */
-	const form = useForm<z.infer<typeof LoginSchema>>({
-		resolver: zodResolver(LoginSchema),
+	const form = useForm<SignInSchemaType>({
+		mode: "onSubmit",
+		reValidateMode: "onSubmit",
+		resolver: zodResolver(SignInSchema),
 		defaultValues: {
-			email: "",
+			username: "",
 			pwd: "",
 		},
 	});
 
+	/* handle form submit */
+	const handleSubmit = async (values: SignInSchemaType) => {
+		console.log(values);
+	};
+
 	return (
-		<div className='singin-page w-[18rem]'>
+		<div className='singin-page w-[21rem] h-full'>
 			<section className='header text-center'>
-				<h1 className='text-white text-3xl font-bold'>LOGIN</h1>
+				<h1 className='text-4xl font-semibold'>LOGIN</h1>
 			</section>
 
-			{/* <section className='form mt-8'>
+			<section className='form mt-5'>
 				<Form {...form}>
 					<form
-						className='flex flex-col gap-4 justify-center items-center w-full'
-						onSubmit={form.handleSubmit(() => {})}
+						noValidate
+						className='flex flex-col gap-3 justify-center items-center w-full'
+						onSubmit={form.handleSubmit(handleSubmit)}
 					>
-						<section className='email w-full '>
-							<FormField
-								control={form.control}
-								name='email'
-								render={({ field }) => (
-									<FormItem>
-										<FormControl>
-											<Input
-												{...field}
-												type='email'
-												placeholder='Email Address'
-												autoComplete='off'
-												className='bg-transparent border border-neutral-800
-                                                            text-[14px] w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-                                                             focus-visible:ring-gray-500
-                                                            '
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</section>
-
-						<section className='pwd w-full'>
-							<FormField
-								control={form.control}
-								name='pwd'
-								render={({ field }) => (
-									<FormItem>
-										<FormControl>
-											<Input
-												{...field}
-												type='password'
-												placeholder='Password'
-												autoComplete='off'
-												className='bg-transparent border border-neutral-800
-                                                            text-[14px] w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-                                                             focus-visible:ring-gray-500
-                                                            '
-											/>
-										</FormControl>
-                                        <FormMessage />
-									</FormItem>
-								)}
-							/>
-						</section>
-
-                        <section className="submit-btn w-full mt-5">
-                            <Button variant='secondary' className="w-full">Login</Button>
-                        </section>
+						<SignInUsername form={form} username='' />
+						<FormPassword form={form} />
 					</form>
 				</Form>
-			</section> */}
-
-			{/* <section className='inputs mt-8 flex flex-col gap-4'>
-				<div className='email=wrapper'>
-					<Input
-						type='email'
-						className='bg-transparent border border-neutral-800
-                                text-[14px] w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-                                focus-visible:ring-gray-500
-                                '
-						placeholder='Email Address'
-						onChange={(e) => setEmail(e.target.value.trim())}
-					/>
-				</div>
-
-				<div className='pwd-wrapper'>
-					<Input
-						type='password'
-						className='bg-transparent border border-neutral-800
-                                text-[14px] w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-                               
-                                '
-						placeholder='Password'
-						onChange={(e) => setPwd(e.target.value.trim())}
-					/>
-				</div>
-
-				<div className='mt-5'>
-					<Button variant='secondary' className='font-semibold text-[14px] w-full'>
-						Sign in
-					</Button>
-				</div>
-			</section> */}
-
-			{/* <section className='socials pt-5'>
-				<SocialAccounts />
 			</section>
-
-			<section className='footer mt-10 text-[16px]'>
-				<Footer footerContent='Dont have an account?' footerLinkContent='Sign up' footerLinkHref='/sign-up' />
-			</section> */}
 		</div>
 	);
 };

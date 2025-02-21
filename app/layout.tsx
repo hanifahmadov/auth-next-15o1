@@ -19,7 +19,7 @@ export default function RootLayout({
 					className='root-layout h-[100svh] w-[100svw] 
                         flex flex-col justify-center items-center 
 						fixed inset-0
-                        bg-zinc-950 text-neutral-300'
+                        bg-zinc-950 text-neutral-100'
 				>
 					{children}
 				</div>

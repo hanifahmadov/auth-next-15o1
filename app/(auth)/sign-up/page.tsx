@@ -61,6 +61,7 @@ const SignUp = () => {
 		setSignUpErrorCode(0);
 		setSignUpSuccess(false);
 
+		
 		try {
 			const response = await SignUpApi(values);
 			console.log("Signup successful:", response.data);
@@ -104,11 +105,11 @@ const SignUp = () => {
 					>
 						<FormUsername form={form} signUpErrorCode={signUpErrorCode} username={username} />
 						<FormEmail form={form} signUpErrorCode={signUpErrorCode} email={email} />
-						<FormPassword form={form} />
+						<FormPassword<SignUpSchemaType> form={form} />
 
 						<motion.section whileTap={{ scale: 0.99 }} className='submit-btn w-full mt-3 rounded-md'>
-							<Button className='w-full h-full bg-green-900 font-semibold hover:bg-opacity-80 border border-transparent'>
-								<span className='h-[19px] text-[12px]'>Create an account</span>
+							<Button className='w-full h-full bg-green-900 font-semibold hover:bg-opacity-80 leading-[33px] py-[2px]'>
+								Create an account
 							</Button>
 						</motion.section>
 					</form>

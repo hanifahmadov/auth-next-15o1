@@ -1,25 +1,22 @@
 import React, { useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 
 /* components */
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FormLabel } from "@/components/forms/form-label";
 
-/* api calls */
-import { SignUpSchemaType } from "@/components/signup/signup_schema";
-import { SignInSchemaType } from "@/components/signin/signin_schema";
-
 /* icons */
 import { FaRegEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 
+// Constrain T so it definitely has a `pwd` property:
+type FormPasswordProps<T extends FieldValues & { pwd: unknown }> = {
+	form: UseFormReturn<T>;
+	signin?: boolean;
+};
 
-interface FormUsernameProps {
-	form: UseFormReturn<SignUpSchemaType | SignInSchemaType>;
-}
-
-export const FormPassword = ({ form }: FormUsernameProps) => {
+export const FormPassword = <T extends FieldValues & { pwd: unknown }>({ form, signin }: FormPasswordProps<T>) => {
 	const [isPwdValid, setIsPwdValid] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -27,29 +24,29 @@ export const FormPassword = ({ form }: FormUsernameProps) => {
 		<section className='pwd w-full'>
 			<FormField
 				control={form.control}
-				name='pwd'
+				name={"pwd" as Path<T>}
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel
-							signin={true}
+							signin
 							username={false}
 							email={false}
-							pwd={true}
-							message={form.formState.errors.pwd?.message}
+							pwd
+							message={form.formState.errors.pwd?.message as string | undefined}
 						/>
 						<FormControl>
 							<div className='relative w-full'>
 								<Input
 									{...field}
 									type={showPassword ? "text" : "password"}
-									placeholder='At least 5 characters'
+									placeholder={signin ? "Enter password" : "At least 5 characters"}
 									autoComplete='off'
 									onFocus={() => {
 										setIsPwdValid(false);
 									}}
 									onBlur={() => {
 										if (field.value.trim().length > 0) {
-											form.trigger("pwd").then(() => {
+											form.trigger("pwd" as Path<T>).then(() => {
 												if (!form.formState.errors.pwd) {
 													setIsPwdValid(true);
 												} else {
@@ -59,13 +56,13 @@ export const FormPassword = ({ form }: FormUsernameProps) => {
 										}
 									}}
 									className={`bg-transparent border border-neutral-800
-														w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-														tracking-wide 
-														 focus-visible:ring-gray-500
-														 placeholder-neutral-600 placeholder:pl-1
-														 p-5
-														 ${isPwdValid && "bg-neutral-900"}
-														`}
+                    							w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
+                    							tracking-wide 
+                   								 focus-visible:ring-gray-500
+                    							placeholder-neutral-600 placeholder:pl-1
+                    							p-5
+                    							${isPwdValid && "bg-neutral-900"}
+                  					`}
 								/>
 
 								{field.value.length > 0 && (
@@ -74,9 +71,9 @@ export const FormPassword = ({ form }: FormUsernameProps) => {
 										onClick={() => setShowPassword((prev) => !prev)}
 									>
 										{showPassword ? (
-											<FaRegEye className='text-red-500 text-xl' />
+											<FaRegEye className='text-red-500 text-lg' />
 										) : (
-											<FaRegEyeSlash className=' text-green-500 text-xl' />
+											<FaRegEyeSlash className=' text-green-500 text-lg' />
 										)}
 									</div>
 								)}

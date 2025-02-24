@@ -73,9 +73,9 @@ export const FormUsername = ({ form, signUpErrorCode, username }: FormUsernamePr
 
 								{isUsernameValid ? (
 									field.value !== username ? (
-										<FaRegCircleCheck className='absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-xl' />
+										<FaRegCircleCheck className='absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-base' />
 									) : (
-										<ImCross className='absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600 text-[1rem]' />
+										<ImCross className='absolute right-3 top-1/2 transform -translate-y-1/2 text-red-600 text-base' />
 									)
 								) : (
 									""

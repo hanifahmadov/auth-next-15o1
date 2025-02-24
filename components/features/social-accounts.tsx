@@ -9,13 +9,8 @@ import { Button } from "@/components/ui/button";
 
 export const SocialAccounts = () => {
 	return (
-		<div className='social-accouts text-center'>
-			<div className=' my-5 flex flex-row justify-center items-center w-full '>
-				<span className='inline-block flex-grow border-b-[1px] border-neutral-500' />
-				<span className='font-semibold text-white inline-block px-3'>OR</span>
-				<span className='inline-block flex-grow border-b-[1px] border-neutral-500' />
-			</div>
-			<p className=''>Sign in with a social account</p>
+		<div className='social-accouts text-center mt-8'>
+			<span className='text-base'>Sign in with a social account</span>
 
 			<section className='links w-full flex flex-col gap-3 justify-center items-center mt-3'>
 				<div className='google w-full'>
@@ -23,11 +18,11 @@ export const SocialAccounts = () => {
 						variant='outline'
 						className='bg-transparent border border-neutral-800
                                 hover:bg-neutral-900 hover:text-white
-                                font-semibold w-full
+                                font-semibold w-full p-5 
                                 '
 					>
 						<FcGoogle />
-						<span>Google</span>
+						<span className="text-sm">Google</span>
 					</Button>
 				</div>
 
@@ -36,13 +31,12 @@ export const SocialAccounts = () => {
 						variant='outline'
 						className='bg-transparent border border-neutral-800
                                 hover:bg-neutral-900 hover:text-white
-                                font-semibold w-full
+                                font-semibold w-full p-5 
                                 '
 					>
 						<FaGithub />
-						<span>Github</span>
+						<span className="text-sm">Github</span>
 					</Button>
-
 				</div>
 			</section>
 		</div>

@@ -31,7 +31,7 @@ export const FormPassword = <T extends FieldValues & { pwd: unknown }>({ form, s
 							signin
 							username={false}
 							email={false}
-							pwd
+							pwd={true}
 							message={form.formState.errors.pwd?.message as string | undefined}
 						/>
 						<FormControl>
@@ -39,7 +39,7 @@ export const FormPassword = <T extends FieldValues & { pwd: unknown }>({ form, s
 								<Input
 									{...field}
 									type={showPassword ? "text" : "password"}
-									placeholder={signin ? "Enter password" : "At least 5 characters"}
+									placeholder={signin ? "min 5 characters > 12345" : "At least 5 characters"}
 									autoComplete='off'
 									onFocus={() => {
 										setIsPwdValid(false);
@@ -56,11 +56,10 @@ export const FormPassword = <T extends FieldValues & { pwd: unknown }>({ form, s
 										}
 									}}
 									className={`bg-transparent border border-neutral-800
-                    							w-full focus-visible:ring-0 focus-visible:ring-offset-blue-500
-                    							tracking-wide 
-                   								 focus-visible:ring-gray-500
-                    							placeholder-neutral-600 placeholder:pl-1
-                    							p-5
+												w-full p-5 focus-visible:ring-0 focus-visible:ring-offset-blue-500
+												focus-visible:ring-gray-500 
+												placeholder-neutral-700 placeholder:pl-1 placeholder:tracking-wider
+												tracking-wide 
                     							${isPwdValid && "bg-neutral-900"}
                   					`}
 								/>

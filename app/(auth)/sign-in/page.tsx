@@ -6,8 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
 
+/* hooks imports */
+import { useUserStore } from "@/components/store/useUserStore";
+
 /* api calls */
-import { SignInApi, DocumentNotFoundErrorType } from "@/components/signin/signin_api";
+import { SignInApi, DocumentNotFoundErrorType, BadCredentialsErrorType } from "@/components/signin/signin_api";
 import { SignInSchema, SignInSchemaType } from "@/components/signin/signin_schema";
 
 /* components */
@@ -20,8 +23,12 @@ import { SocialAccounts } from "@/components/features/social-accounts";
 import { Footer } from "@/components/features/footer";
 
 const SignIn = () => {
+	/* hooks setup */
+	const { setUser } = useUserStore();
+
+	/* states setup */
 	const [signInError, setSignInError] = useState<boolean>(false);
-	const [signInErrorInfo, setSignInErrorInfo] = useState<DocumentNotFoundErrorType>({});
+	const [signInErrorInfo, setSignInErrorInfo] = useState<DocumentNotFoundErrorType | BadCredentialsErrorType>({});
 
 	/* form */
 	const form = useForm<SignInSchemaType>({
@@ -36,10 +43,13 @@ const SignIn = () => {
 
 	/* handle form submit */
 	const handleSubmit = async (values: SignInSchemaType) => {
+		if (signInError) return;
+
 		try {
 			const response = await SignInApi(values);
 
-			console.log("Signup successful:", response.data);
+			// user response from the server
+			setUser(response.data);
 		} catch (error: any) {
 			console.log(error);
 			setSignInError(true);
@@ -64,7 +74,7 @@ const SignIn = () => {
 							form={form}
 							signInError={signInError}
 							setSignInError={setSignInError}
-							signInErrorInfo={signInErrorInfo}
+							signInErrorInfo={signInErrorInfo.errorCode == 12001 ? signInErrorInfo : {}}
 							setSignInErrorInfo={setSignInErrorInfo}
 						/>
 						<FormPassword<SignInSchemaType> form={form} signin={true} />

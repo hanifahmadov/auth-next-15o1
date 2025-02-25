@@ -8,6 +8,15 @@ export type DocumentNotFoundErrorType = {
 	title?: string;
 	message?: string;
 	document?: string;
+	errorCode?: number;
+};
+
+/* types */
+export type BadCredentialsErrorType = {
+	name?: "BadCredentialsError";
+	title?: string;
+	message?: string;
+	errorCode?: number;
 };
 
 export async function SignInApi(data: SignInSchemaType): Promise<AxiosResponse<any>> {
@@ -24,11 +33,13 @@ export async function SignInApi(data: SignInSchemaType): Promise<AxiosResponse<a
 		});
 		return response;
 	} catch (error: any) {
+		// DocumentNotFoundError
 		if (error?.response?.status === 404) {
 			/*  "message" comes from your Node.js "DocumentNotFoundError" class */
 			const messageFromServer: string = error?.response?.data?.message ?? "Document not found";
 			const titleFromServer: string = error?.response?.data?.title ?? "";
 			const documentFromServer: string = error?.response?.data?.document ?? "";
+			const errorCodeFromServer: number = error?.response?.data?.errorCode ?? 12001;
 
 			// Throw a typed error object
 			const customError: DocumentNotFoundErrorType = {
@@ -36,6 +47,22 @@ export async function SignInApi(data: SignInSchemaType): Promise<AxiosResponse<a
 				title: titleFromServer,
 				message: messageFromServer,
 				document: documentFromServer,
+				errorCode: errorCodeFromServer,
+			};
+
+			throw customError;
+		}
+
+		// BadCredentialsError
+		if (error?.response?.status === 401) {
+			const messageFromServer: string = error?.response?.data?.message ?? "Invalid credentials";
+			const errorCodeFromServer: number = error?.response?.data?.errorCode ?? 13001;
+
+			// Throw a typed error object
+			const customError: BadCredentialsErrorType = {
+				name: "BadCredentialsError",
+				message: messageFromServer,
+				errorCode: errorCodeFromServer,
 			};
 
 			throw customError;

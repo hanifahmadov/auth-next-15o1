@@ -8,12 +8,11 @@ import { SignInLabel } from "@/components/signin/signin-label";
 
 /* api calls */
 import { SignInSchemaType } from "@/components/signin/signin_schema";
-import { DocumentNotFoundErrorType } from "./signin_api";
-import { tree } from "next/dist/build/templates/app-page";
+import { DocumentNotFoundErrorType, BadCredentialsErrorType } from "./signin_api";
 
 type SignInUsernameProps = {
 	form: UseFormReturn<SignInSchemaType>;
-	signInErrorInfo: DocumentNotFoundErrorType;
+	signInErrorInfo: DocumentNotFoundErrorType | BadCredentialsErrorType;
 	signInError: boolean;
 	setSignInError: (val: boolean) => void;
 	setSignInErrorInfo: (val: DocumentNotFoundErrorType) => void;
@@ -41,10 +40,16 @@ export const SignInUsername = ({
 		setSignInErrorInfo({});
 	};
 
-	/* handle onBlue */
-	const handleOnBlur = (val: string | undefined) => {
-		if (val && val.trim().length) {
-			setIsUsernameValid(true);
+	/* handle onBlur */
+	const handleOnBlur = (form: UseFormReturn<SignInSchemaType>, value?: string): void => {
+		if (value && value.trim().length > 0) {
+			form.trigger().then(() => {
+				if (!form.formState.errors.username) {
+					setIsUsernameValid(true);
+				} else {
+					setIsUsernameValid(false);
+				}
+			});
 		}
 	};
 
@@ -55,7 +60,12 @@ export const SignInUsername = ({
 				name='username'
 				render={({ field }) => (
 					<FormItem>
-						<SignInLabel signInErrorInfo={signInErrorInfo} username={true} pwd={false} />
+						<SignInLabel
+							formErrorMessage={form.formState.errors.username?.message ?? ""}
+							signInErrorInfo={signInErrorInfo}
+							username={true}
+							pwd={false}
+						/>
 						<FormControl>
 							<div className='relative w-full'>
 								<Input
@@ -65,14 +75,14 @@ export const SignInUsername = ({
 									autoComplete='off'
 									autoFocus={true}
 									onFocus={() => handleFocus(field.value)}
-									onBlur={() => handleOnBlur(field.value)}
+									onBlur={() => handleOnBlur(form, field.value)}
 									className={`bg-transparent border border-neutral-800
 												w-full p-5 focus-visible:ring-0 focus-visible:ring-offset-blue-500
 												focus-visible:ring-gray-500 
 												placeholder-neutral-700 placeholder:pl-1 placeholder:tracking-wider
 												tracking-wide 
 												${isUsernameValid && !signInError && "bg-neutral-900"}
-												${signInError && "ring-2 ring-red-600"}
+												${signInError && "ring-2 ring-red-500 ring-opacity-50"}
 												`}
 								/>
 							</div>
